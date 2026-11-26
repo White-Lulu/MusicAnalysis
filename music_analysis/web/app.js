@@ -333,7 +333,7 @@ function libraryView() {
   instruments.append(resultRows(data.instruments, instrumentScore, item =>
     Number.isFinite(item.peak_score) ? element("small", (item.supplementary ? t("补充线索 · ") : "") +
       t("最高窗 ") + item.peak_score.toFixed(3), "info") : null));
-  const themes = element("div", "", "tag-list");
+  const themes = element("div", "", "tag-list mood-tags");
   for (const item of data.mood.tags) themes.append(element("span", UI.label(item.label) + " " + item.score.toFixed(2), "tag"));
   instruments.append(element("hr"), element("h3", t("情绪候选")), themes);
 
@@ -690,12 +690,16 @@ function renderCollection() {
   const moodNote = t("每首歌在同一情绪方向只计一个标签。方向可重叠。") +
     (summary.weighted ? t("百分比是平均标签匹配证据。") : t("百分比是出现该方向的曲目比例。"));
   const mood = directionProfile(t("情绪标签画像"), summary.mood_profile, moodNote);
+  const moodTags = directionProfile(t("细分情绪排名"), {
+    tracks: summary.mood_profile.tracks, rows: summary.moods.slice(0, 6),
+  }, t("汇总单曲的原始情绪候选，显示前六项；标签可重叠。") +
+    (summary.weighted ? t("百分比是平均标签匹配证据。") : t("百分比是出现该标签的曲目比例。")));
   const emotion = emotionCard(summary.emotion_profile, summary.analysed);
   head.append(overview);
   host.append(layoutSections(emotion, columns("genre-overview", genre, subgenres, tonalityCard(summary.key_profile)),
     columns("analysis-grid", semanticProfile(t("微曲风画像"), summary.microgenre_profile),
       semanticProfile(t("文化审美画像"), summary.culture_profile, true)),
-    columns("analysis-grid", mood, speed)));
+    columns("mood-overview", mood, moodTags, speed)));
 }
 
 async function importMusic(selected, batchTitle = "") {
