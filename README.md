@@ -12,31 +12,7 @@ MusicAnalysis 是一个面向 Windows 的本地音乐分析应用。导入歌曲
 
 ## 2. 运作逻辑
 
-```mermaid
-flowchart TD
-    subgraph IMPORT["01 · 导入与准备"]
-    direction LR
-    A["歌曲 / 多首歌曲 / 文件夹"] --> B["本地导入与格式处理<br/>FFmpeg · NCM / UC 解包"]
-    B --> C["内容去重 · 建立批次 · 分析队列"]
-    C --> D["解码 / 重采样 / 静音识别"]
-    end
-    subgraph ENGINES["02 · 单曲分析 · 依次执行"]
-    direction LR
-    E["Beat This! + librosa<br/>速度 · 拍点 · 主调"]
-    E --> F["Discogs-MAEST 519<br/>细分曲风匹配与覆盖"]
-    F --> G["LAION CLAP<br/>微曲风候选 · 文化声音线索"]
-    G --> H["NemoraSonar<br/>Brazilian Phonk 专项判断"]
-    H --> I["MTG-Jamendo + DEAM<br/>乐器 · 情绪标签 · 效价 / 唤醒度"]
-    end
-    subgraph REPORT["03 · 报告与汇总"]
-    direction LR
-    J["单曲报告 · JSON 导出"]
-    J --> K[("SQLite 曲库<br/>音频标识 · 报告 · 批次关系")]
-    K --> L["按提交批次 / 全部不同曲目汇总"]
-    L --> M["听感散点与文字报告<br/>速度 · 曲风 · 调性 · 情绪画像<br/>微曲风 / 文化线索累计排名"]
-    end
-    IMPORT --> ENGINES --> REPORT
-```
+![MusicAnalysis 运作逻辑。导入与准备、依次执行的音乐分析模型，以及单曲报告和批次整体画像汇总。](docs/images/analysis-flow.svg)
 
 图中顺序对应当前常规分析流程。曲目依次排队，模型按需加载；CLAP 排序会参考前一步的曲风证据。某个模块失败时记录原因，其他可用结果仍会展示。Beat This! 不可用时由 librosa 回退。
 

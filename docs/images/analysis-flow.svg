@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="920" viewBox="0 0 1440 920" role="img" aria-labelledby="title description">
+  <title id="title">MusicAnalysis 运作逻辑</title>
+  <desc id="description">01 导入与准备：歌曲、多首歌曲或文件夹，经 FFmpeg 和 NCM / UC 解包、内容去重、建立批次和分析队列，再解码、重采样、识别静音。02 单曲分析依次执行：Beat This! + librosa、Discogs-MAEST 519、LAION CLAP、NemoraSonar、MTG-Jamendo + DEAM。03 报告与汇总：导出单曲报告，存入 SQLite，按批次或全部不同曲目汇总为听感与各维度画像。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 7 4 1 7" fill="none" stroke="#000" stroke-width="1.2"/>
+    </marker>
+    <style>
+      text { fill: #000; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif; }
+      .frame, .node { fill: #fff; stroke: #000; stroke-width: 1; }
+      .rule { fill: none; stroke: #000; stroke-width: 1; }
+      .link { fill: none; stroke: #000; stroke-width: 1.5; marker-end: url(#arrow); }
+      .number { fill: #fff; font-size: 21px; font-weight: 700; text-anchor: middle; }
+      .section { font-size: 26px; font-weight: 800; letter-spacing: -.5px; }
+      .heading { font-size: 22px; font-weight: 650; text-anchor: middle; }
+      .model { font-size: 20px; font-weight: 650; text-anchor: middle; }
+      .detail { font-size: 19px; font-weight: 300; text-anchor: middle; }
+      .compact { font-size: 18px; font-weight: 300; text-anchor: middle; }
+    </style>
+  </defs>
+  <rect width="1440" height="920" fill="#fff"/>
+
+  <g id="import">
+    <rect class="frame" x="40.5" y="40.5" width="1359" height="219"/>
+    <path class="rule" d="M104 40v56m-64 0h1360"/>
+    <rect x="40" y="40" width="64" height="56" fill="#000"/>
+    <text class="number" x="72" y="76">01</text>
+    <text class="section" x="128" y="78">导入与准备</text>
+
+    <g id="input">
+      <rect class="node" x="64.5" y="122.5" width="285" height="109"/>
+      <text class="heading" x="207" y="162">歌曲 / 多首歌曲</text>
+      <text class="detail" x="207" y="196">/ 文件夹</text>
+    </g>
+    <path class="link" d="M358 177h40"/>
+    <g id="conversion">
+      <rect class="node" x="406.5" y="122.5" width="285" height="109"/>
+      <text class="heading" x="549" y="162">本地导入与格式处理</text>
+      <text class="compact" x="549" y="196">FFmpeg · NCM / UC 解包</text>
+    </g>
+    <path class="link" d="M700 177h40"/>
+    <g id="queue">
+      <rect class="node" x="748.5" y="122.5" width="285" height="109"/>
+      <text class="heading" x="891" y="162">内容去重 · 建立批次</text>
+      <text class="detail" x="891" y="196">分析队列</text>
+    </g>
+    <path class="link" d="M1042 177h40"/>
+    <g id="preprocessing">
+      <rect class="node" x="1090.5" y="122.5" width="285" height="109"/>
+      <text class="heading" x="1233" y="162">解码 / 重采样</text>
+      <text class="detail" x="1233" y="196">静音识别</text>
+    </g>
+  </g>
+  <path class="link" d="M720 268v32"/>
+
+  <g id="engines">
+    <rect class="frame" x="40.5" y="308.5" width="1359" height="243"/>
+    <path class="rule" d="M104 308v56m-64 0h1360"/>
+    <rect x="40" y="308" width="64" height="56" fill="#000"/>
+    <text class="number" x="72" y="344">02</text>
+    <text class="section" x="128" y="346">单曲分析 · 依次执行</text>
+
+    <g id="rhythm-key">
+      <rect class="node" x="64.5" y="390.5" width="231" height="129"/>
+      <text class="model" x="180" y="430">Beat This! + librosa</text>
+      <text class="detail" x="180" y="476">速度 · 拍点 · 主调</text>
+    </g>
+    <path class="link" d="M304 455h22"/>
+    <g id="genre">
+      <rect class="node" x="334.5" y="390.5" width="231" height="129"/>
+      <text class="model" x="450" y="430">Discogs-MAEST 519</text>
+      <text class="detail" x="450" y="476">细分曲风匹配与覆盖</text>
+    </g>
+    <path class="link" d="M574 455h22"/>
+    <g id="semantics">
+      <rect class="node" x="604.5" y="390.5" width="231" height="129"/>
+      <text class="model" x="720" y="430">LAION CLAP</text>
+      <text class="detail" x="720" y="466">微曲风候选</text>
+      <text class="detail" x="720" y="494">文化声音线索</text>
+    </g>
+    <path class="link" d="M844 455h22"/>
+    <g id="phonk">
+      <rect class="node" x="874.5" y="390.5" width="231" height="129"/>
+      <text class="model" x="990" y="430">NemoraSonar</text>
+      <text class="detail" x="990" y="466">Brazilian Phonk</text>
+      <text class="detail" x="990" y="494">专项判断</text>
+    </g>
+    <path class="link" d="M1114 455h22"/>
+    <g id="instruments-emotions">
+      <rect class="node" x="1144.5" y="390.5" width="231" height="129"/>
+      <text class="model" style="font-size:18px" x="1260" y="430">MTG-Jamendo + DEAM</text>
+      <text class="detail" x="1260" y="466">乐器 · 情绪标签</text>
+      <text class="detail" x="1260" y="494">效价 / 唤醒度</text>
+    </g>
+  </g>
+  <path class="link" d="M720 560v32"/>
+
+  <g id="report">
+    <rect class="frame" x="40.5" y="600.5" width="1359" height="279"/>
+    <path class="rule" d="M104 600v56m-64 0h1360"/>
+    <rect x="40" y="600" width="64" height="56" fill="#000"/>
+    <text class="number" x="72" y="636">03</text>
+    <text class="section" x="128" y="638">报告与汇总</text>
+
+    <g id="single-report">
+      <rect class="node" x="64.5" y="682.5" width="285" height="163"/>
+      <text class="heading" x="207" y="722">单曲报告</text>
+      <text class="detail" x="207" y="758">JSON 导出</text>
+    </g>
+    <path class="link" d="M358 764h40"/>
+    <g id="storage">
+      <rect class="node" x="406.5" y="682.5" width="285" height="163"/>
+      <text class="heading" x="549" y="722">SQLite 曲库</text>
+      <text class="detail" x="549" y="758">音频标识 · 报告</text>
+      <text class="detail" x="549" y="786">批次关系</text>
+    </g>
+    <path class="link" d="M700 764h40"/>
+    <g id="aggregation">
+      <rect class="node" x="748.5" y="682.5" width="285" height="163"/>
+      <text class="heading" x="891" y="722">按提交批次</text>
+      <text class="detail" x="891" y="758">/ 全部不同曲目汇总</text>
+    </g>
+    <path class="link" d="M1042 764h40"/>
+    <g id="profiles">
+      <rect class="node" x="1090.5" y="682.5" width="285" height="163"/>
+      <text class="heading" x="1233" y="722">听感散点与文字报告</text>
+      <text class="compact" x="1233" y="758">速度 · 曲风 · 调性 · 情绪画像</text>
+      <text class="compact" x="1233" y="790">微曲风 / 文化线索累计排名</text>
+    </g>
+  </g>
+</svg>
