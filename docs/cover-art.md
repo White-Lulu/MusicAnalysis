@@ -22,6 +22,8 @@
 16. **山蚀**：[17-eroded-ridges.webp](../music_analysis/web/sleeves/17-eroded-ridges.webp)
 17. **窗迹**：[18-window-afterimage.webp](../music_analysis/web/sleeves/18-window-afterimage.webp)
 
+最后五款分别采用青灰绿、海蓝、灰紫、赭红、蓝灰配暖金的克制配色，保留原有纸感与构图。
+
 ## 生成提示词
 
 以下为最终选用的提示词。文件名前缀 01–08 使用共同提示 A（06 已移除），09–10 使用共同提示 B，11–13 使用共同提示 C，14–18 使用共同提示 D；每次生成的完整提示为相应共同提示与该款题材提示两段拼接。
@@ -213,6 +215,64 @@ A richly layered but restrained full-frame mountain photogravure. Large weathere
 
 ```text
 A quiet archival double-exposure photograph of an old window and its reflected leafy branches, rendered as a tactile fine-art print. Cropped window shadows, rain-softened glass, thin plant silhouettes and a gentle warm light trace overlap across the entire square. The architecture is a photographic fragment rather than clean graphic rectangles; subtle soft-focus and imperfect ink transfer unify the organic and urban details. Palette smoke-grey, ink-black, warm cream and faint dusty copper. No readable signage, people, neon or empty wall.
+```
+
+</details>
+
+## 最后五款的配色调整
+
+使用内置 imagegen 编辑，各款以其原图为输入，只调整色彩。完整编辑提示为共同提示 E 与对应的配色提示拼接。
+
+<details>
+<summary>共同提示 E：保留构图，仅调整印刷配色</summary>
+
+```text
+Use case: precise-object-edit. EDIT THE SUPPLIED SINGLE ALBUM ARTWORK. COLOR GRADING / INK PALETTE CHANGE ONLY. Preserve the exact existing composition, framing, crop, subject silhouettes, collage layers, photographic details, paper grain, halftone-dot patterns, soft light-trace shapes, registration marks and overall contrast structure. Do not redraw, move, add or remove any subject or graphic element. Keep the same archival fine-art print sensibility and full-bleed square format. Introduce the specified distinct but restrained, desaturated pigment palette so it reads as a different color family from the current sepia/beige group. Color should be visible without becoming loud or synthetic. Maintain delicate tonal detail in both shadows and paper highlights. No new text, border, people, hands, logos, neon, rainbow effects or glossy CGI.
+```
+
+</details>
+
+<details>
+<summary>14-branch-impressions · 配色</summary>
+
+```text
+Shift this woodland and branching print toward cool sage and eucalyptus green-grey: deep forest-green ink in the branches and shadows, soft sage-green midtones, pale mineral-white paper highlights, with only a tiny subdued olive undertone. Reduce the dominant golden/beige cast and rust colors. Light traces should be pale cool ivory. Calm botanical green, not saturated emerald. Preserve all original spatial details.
+```
+
+</details>
+
+<details>
+<summary>15-tidal-print · 配色</summary>
+
+```text
+Shift this seaweed, foam and coastal print toward a clear muted ocean-blue family: deep petrol-blue and indigo ink in dark shapes, slate-blue and sea-glass blue-green midtones, soft pearl-white foam and paper highlights. Keep any rusty accent extremely small and greyed. Remove the dominant sepia cast. Quiet, marine, slightly cool cyanotype-like color, not vivid tropical turquoise. Preserve the original layout exactly.
+```
+
+</details>
+
+<details>
+<summary>16-lunar-archive · 配色</summary>
+
+```text
+Shift this lunar print toward smoky violet and lilac-grey: charcoal-plum shadows, soft muted lavender-grey cloud and collage midtones, pale silver lunar highlights. Recolor the broad rusty curved impression into a subdued dusty mauve. Keep a faint cool blue undertone but make the overall family gently violet, with no dominant beige or orange. Elegant faded violet ink on pale grey paper, not bright purple. Do not alter any moon, crater, reed, cloud or curve.
+```
+
+</details>
+
+<details>
+<summary>17-eroded-ridges · 配色</summary>
+
+```text
+Give this mountain print a slightly warmer, earth-red identity distinct from the others: deep charcoal-brown rock shadows, muted burnt-sienna and oxidized terracotta in the existing broad ink impressions, soft clay-grey ridges and light warm-ivory mist. Increase the restrained terracotta presence enough to be recognizable but avoid dominant yellow-beige sepia or saturated orange. Keep the photographic mountains, paper details and light-trace geometry identical.
+```
+
+</details>
+
+<details>
+<summary>18-window-afterimage · 配色</summary>
+
+```text
+Shift this old-window print to a subtle cool/warm pairing: blue-grey and desaturated midnight-navy in the architecture, reflected foliage and shadows; pale cool ivory paper and glass highlights; a small restrained amber-gold warmth in the EXISTING light traces and a few existing faded ink accents. Recolor the large rusty impressions toward muted dusty blue-grey. Overall impression should be calm blue-grey with a faint warm afterglow, not another brown sepia image. Keep every existing element in place.
 ```
 
 </details>

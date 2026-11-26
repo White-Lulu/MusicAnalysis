@@ -108,7 +108,7 @@ function sleeveIndex(id) {
 function sleeve(index) {
   const art = element("span", "", "sleeve");
   art.dataset.sleeve = index;
-  art.style.backgroundImage = `url("/assets/sleeves/${sleeveArt[index]}.webp")`;
+  art.style.backgroundImage = `url("/assets/sleeves/${sleeveArt[index]}.webp?v=palette-2")`;
   art.setAttribute("aria-hidden", "true");
   return art;
 }
