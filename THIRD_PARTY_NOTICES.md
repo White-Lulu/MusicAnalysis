@@ -25,5 +25,5 @@
 ## 字体与视觉素材
 
 - **Inter**：Copyright (c) The Inter Project Authors，SIL Open Font License 1.1。字体文件随本仓库提供，完整许可见 [Inter-LICENSE.txt](music_analysis/web/Inter-LICENSE.txt)。
-- **装饰封套**：本项目通过 AI 图像生成得到的六款装饰图，随应用用于界面展示。它们不对应真实歌曲或唱片的专辑封面。
+- **装饰封套**：本项目使用内置 imagegen 工具生成的十款满版装饰图，随应用用于界面展示。它们不对应真实歌曲或唱片的专辑封面。完整提示词与文件见[封套说明](docs/cover-art.md)。
 - **README 截图**：来自本应用界面，曲名、艺人、批次名称已匿名化；不包含或分发音乐音频。

@@ -9,8 +9,10 @@ const audio = $("audio");
 const importButtons = [$("choose-files"), $("choose-folder")];
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 const statuses = { queued: "等待分析", running: "分析中", done: "已分析", error: "分析失败" };
+const sleeveArt = ["01-botanical-shadow", "02-ocean-nocturne", "03-mountain-mist", "04-ivory-bloom",
+  "05-ink-drift", "06-human-gesture", "07-city-after-rain", "08-heron-flight", "09-cobalt-interlock", "10-silver-facets"];
 const sleeveSlots = new Map();
-const sleeveCounts = [0, 0, 0, 0, 0, 0];
+const sleeveCounts = sleeveArt.map(() => 0);
 let noticeTimer, pendingPlayhead, playbackFallback = false, lastListRequest = 0, summaryRequest = 0;
 
 function element(tag, text = "", className = "") {
@@ -104,6 +106,7 @@ function sleeveIndex(id) {
 function sleeve(index) {
   const art = element("span", "", "sleeve");
   art.dataset.sleeve = index;
+  art.style.backgroundImage = `url("/assets/sleeves/${sleeveArt[index]}.webp")`;
   art.setAttribute("aria-hidden", "true");
   return art;
 }

@@ -132,15 +132,10 @@ input::placeholder { color: var(--muted); }
 }
 .sleeve-frame { display: block; overflow: hidden; min-width: 0; background: var(--panel); }
 .sleeve {
-  display: block; aspect-ratio: 1; width: 100%; background: #333 url("record-sleeves.webp") no-repeat;
-  background-size: 300% 200%; filter: grayscale(100%); transform: scale(1);
+  display: block; aspect-ratio: 1; width: 100%; background: #333 no-repeat center;
+  background-size: cover; filter: grayscale(100%); transform: scale(1);
   transition: filter .8s cubic-bezier(.16, 1, .3, 1), transform .8s cubic-bezier(.16, 1, .3, 1);
 }
-.sleeve[data-sleeve="1"] { background-position: 50% 0; }
-.sleeve[data-sleeve="2"] { background-position: 100% 0; }
-.sleeve[data-sleeve="3"] { background-position: 0 100%; }
-.sleeve[data-sleeve="4"] { background-position: 50% 100%; }
-.sleeve[data-sleeve="5"] { background-position: 100% 100%; }
 /* Reveal each original cover in color over 0.8s with the supplied easing curve. */
 .record-tile:is(:hover, :focus-visible) .sleeve, .report-cover:hover .sleeve { filter: grayscale(0%); transform: scale(1.05); }
 .record-facts { min-width: 0; display: grid; gap: 5px; padding: 14px 12px 17px; overflow-wrap: anywhere; }
