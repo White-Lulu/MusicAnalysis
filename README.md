@@ -1,7 +1,5 @@
 # MusicAnalysis · 音乐解析与听感画像
 
-**从一首歌的声音细节，到一批音乐的偏好。**
-
 ## 1. 简介
 
 MusicAnalysis 是一个面向 Windows 的本地音乐分析应用。导入歌曲或整个文件夹，就能查看曲风覆盖、微曲风候选、乐器与情绪线索、速度、调性和听感变化；提交多首后，还能对照这一批与全部曲库的选曲画像。
@@ -24,12 +22,11 @@ MusicAnalysis 是一个面向 Windows 的本地音乐分析应用。导入歌曲
 | 乐器与情绪 | Discogs-EffNet + MTG-Jamendo 分类头 | 最多 6 项乐器线索，以及情绪候选 |
 | 听感变化 | MSD-MusiCNN + DEAM | 随时间变化的效价、唤醒度及叠加曲线 |
 | 速度与调性 | Beat This!、librosa、色度匹配 | 主速度、拍点数量、主调与接近的次选调 |
-| Phonk 专项 | NemoraSonar 1.1，ONNX Runtime | 判断为 Brazilian Phonk 时，展示最多 3 个专项候选 |
 | 批次与整体画像 | 本项目的去重、证据汇总与听感统计 | 维度图、描述性报告，以及微曲风／文化审美倾向前 6 名 |
 
 ## 3. 使用示例
 
-截图中的曲名、艺人和批次名称做了匿名化处理，展示的是实际应用界面；仓库不提供这些曲目的音频。
+截图中的曲名、艺人和批次名称做了匿名化处理。
 
 ### ① 导入一首歌，或一次提交整个文件夹
 
@@ -106,8 +103,6 @@ powershell -ExecutionPolicy Bypass -File .\Setup.ps1
 
 安装完成后，以后直接双击 `Start.cmd`。浏览器打开 **http://127.0.0.1:8765**，关闭启动命令窗口即可停止服务。首次加载各模型比后续分析慢。
 
-安装脚本只准备推理环境，并移除未使用的 PyTorch／TensorFlow 开发头文件与 PyTorch 静态链接库。模型、运行 DLL 和必要依赖保留；不会把上游训练代码、模型权重或 Python 环境提交到 GitHub。
-
 ### 数据位置与可选配置
 
 | 路径或变量 | 作用 |
@@ -126,5 +121,3 @@ powershell -ExecutionPolicy Bypass -File .\Setup.ps1
 ## 6. 许可证
 
 本项目自有应用代码与文档采用 [MIT License](LICENSE)。第三方字体、模型、模型附带代码及运行依赖保留各自许可证，详见[第三方来源与授权](THIRD_PARTY_NOTICES.md)。
-
-MTG 发布的模型总体采用 **CC BY-NC-SA 4.0**；本项目所用 MAEST Hugging Face 转换页的许可字段未完整填写，需同时核对原模型与转换版本的授权。应用代码的 MIT 许可不授予第三方模型的商业使用权。模型授权说明见 [MTG 官方页面](https://essentia.upf.edu/licensing_information.html)。用户导入的音频仍归其各自权利人所有。
