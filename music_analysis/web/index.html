@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="local-token" content="__LOCAL_TOKEN__">
+  <title>音乐分析</title>
+  <link rel="preload" href="/assets/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/styles.css?v=subgenre-ranking-1">
+  <script src="/assets/i18n.js?v=culture-evidence-1" defer></script>
+  <script src="/assets/app.js?v=culture-evidence-1" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="#top" class="brand"><span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span data-i18n="音乐分析">音乐分析</span></a>
+      <nav id="nav" aria-label="主导航" data-i18n-label="主导航">
+        <a href="#library" data-i18n="曲库">曲库</a>
+        <a href="#analysis" data-i18n="单曲解析">单曲解析</a>
+        <a href="#collection" data-i18n="批次与整体画像">批次与整体画像</a>
+      </nav>
+      <div class="top-actions">
+        <button id="language-toggle" type="button" class="quiet language-toggle" aria-label="切换到英文">English</button>
+        <button id="theme-toggle" type="button" class="quiet theme-toggle" aria-pressed="false" data-i18n="深色模式">深色模式</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="layout" class="layout">
+    <section id="top" class="intro-grid" aria-labelledby="intro-title">
+      <div class="intro-copy">
+        <h1 id="intro-title"><span data-i18n="音乐解析">音乐解析</span><br><span data-i18n="与听感画像">与听感画像</span></h1>
+        <p class="caption" data-i18n="从一首歌的声音细节，到一批音乐的偏好。">从一首歌的声音细节，到一批音乐的偏好。</p>
+      </div>
+      <div id="import-zone" class="upload-panel">
+        <h2 data-i18n="从你的音乐开始">从你的音乐开始</h2>
+        <p class="caption" data-i18n="拖入歌曲或文件夹，或点击按钮选择。">拖入歌曲或文件夹，或点击按钮选择。</p>
+        <div class="import-actions">
+          <button id="choose-files" type="button" class="primary" data-i18n="选择歌曲（可多选）">选择歌曲（可多选）</button>
+          <button id="choose-folder" type="button" class="primary" data-i18n="选择文件夹">选择文件夹</button>
+        </div>
+        <input id="upload-files" type="file" accept="audio/*,.ncm,.uc,.ape,.wv,.dsf,.dff,.mka,.mp4,.webm" multiple hidden>
+        <input id="upload-folder" type="file" webkitdirectory multiple hidden>
+        <p class="info" data-i18n="支持 MP3、M4A、NCM、UC、FLAC、WAV 等格式。">支持 MP3、M4A、NCM、UC、FLAC、WAV 等格式。</p>
+      </div>
+    </section>
+
+    <section id="library" class="page-section" aria-labelledby="library-title">
+      <header class="section-heading">
+        <div class="section-title"><h2 id="library-title" data-i18n="曲库">曲库</h2><span id="track-count">0 首</span></div>
+        <label class="sr-only" for="search" data-i18n="搜索曲库">搜索曲库</label>
+        <input id="search" type="search" placeholder="搜索歌名或艺人" data-i18n-placeholder="搜索歌名或艺人">
+      </header>
+      <div id="shelf" aria-live="polite"></div>
+    </section>
+
+    <section id="analysis" class="page-section" aria-label="单曲解析" data-i18n-label="单曲解析">
+      <div id="view" class="view" aria-live="polite"></div>
+    </section>
+
+    <section id="collection" class="page-section" aria-label="批次与整体画像" data-i18n-label="批次与整体画像">
+      <div id="collection-view" class="view" aria-live="polite"></div>
+    </section>
+  </main>
+  <div id="notice" class="notice" role="status" hidden></div>
+  <footer id="player" class="player" hidden>
+    <div class="player-inner">
+      <div class="player-track"><span class="player-mark" aria-hidden="true">♪</span><div><strong id="player-title"></strong><span id="player-artist"></span></div></div>
+      <audio id="audio" aria-label="原音频播放器" data-i18n-label="原音频播放器" controls preload="metadata"></audio>
+    </div>
+  </footer>
+</body>
+</html>
