@@ -145,7 +145,7 @@ const UI = (() => {
   "曲风候选": "Leading genre",
   "曲风画像": "Genre profile",
   "细分曲风排名": "Subgenre ranking",
-  "按平均覆盖证据排序，显示前十项；加权方式与大类画像一致。": "Top ten subgenres by average coverage evidence, using the same weighting as the genre families.",
+  "按平均覆盖证据排序，显示前十二项；加权方式与大类画像一致。": "Top twelve subgenres by average coverage evidence, using the same weighting as the genre families.",
   "曲风覆盖": "Genre coverage",
   "最集中的具体调性是 ": "The leading key is ",
   "最高窗 ": "Peak window ",

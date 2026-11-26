@@ -685,10 +685,10 @@ function renderCollection() {
     rows: genres.rows.map(row => ({...row, label: genreFamilies[row.label] || row.label}))},
     t("条形长度表示平均曲风覆盖证据。每首歌在同一门类只取证据最强的子曲风。门类可重叠。"), examples);
   const subgenres = directionProfile(t("细分曲风排名"), {tracks: genres.tracks,
-    rows: summary.genres.slice(0, 10).map(row => {
+    rows: summary.genres.slice(0, 12).map(row => {
       const [family, ...style] = row.label.split(" › ");
       return {...row, label: [UI.label(genreFamilies[family] || family), ...style].join(" › ")};
-    })}, t("按平均覆盖证据排序，显示前十项；加权方式与大类画像一致。"));
+    })}, t("按平均覆盖证据排序，显示前十二项；加权方式与大类画像一致。"));
   const mood = directionProfile(t("情绪标签画像"), summary.mood_profile,
     t("汇总单曲的原始情绪候选，显示前十项；标签可重叠。") +
     (summary.weighted ? t("百分比是平均标签匹配证据。") : t("百分比是出现该标签的曲目比例。")));

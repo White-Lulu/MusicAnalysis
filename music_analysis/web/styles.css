@@ -199,7 +199,7 @@ input::placeholder { color: var(--muted); }
 .split-ranking .profile-scale { display: none; }
 .split-ranking .profile-rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(5, auto); grid-auto-flow: column; column-gap: 40px; }
 .split-ranking .tag-row:nth-child(5) { border-bottom: 0; }
-.timeline-list { display: grid; gap: 4px; max-height: 180px; overflow: auto; margin-top: 8px; }
+.timeline-list { display: grid; gap: 4px; max-height: 132px; overflow: auto; margin-top: 8px; }
 .timeline-row { padding: 6px 9px; text-align: left; border: 1px solid var(--line); background: var(--bg); font-size: 12px; overflow-wrap: anywhere; }
 .timeline-row:hover { background: var(--panel); }
 .compact-empty { padding: 24px 0; color: var(--muted); }
