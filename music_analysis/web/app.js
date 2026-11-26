@@ -687,19 +687,15 @@ function renderCollection() {
       const [family, ...style] = row.label.split(" › ");
       return {...row, label: [UI.label(genreFamilies[family] || family), ...style].join(" › ")};
     })}, t("按平均覆盖证据排序，显示前六项；加权方式与大类画像一致。"));
-  const moodNote = t("每首歌在同一情绪方向只计一个标签。方向可重叠。") +
-    (summary.weighted ? t("百分比是平均标签匹配证据。") : t("百分比是出现该方向的曲目比例。"));
-  const mood = directionProfile(t("情绪标签画像"), summary.mood_profile, moodNote);
-  const moodTags = directionProfile(t("细分情绪排名"), {
-    tracks: summary.mood_profile.tracks, rows: summary.moods.slice(0, 6),
-  }, t("汇总单曲的原始情绪候选，显示前六项；标签可重叠。") +
+  const mood = directionProfile(t("情绪标签画像"), summary.mood_profile,
+    t("汇总单曲的原始情绪候选，显示前六项；标签可重叠。") +
     (summary.weighted ? t("百分比是平均标签匹配证据。") : t("百分比是出现该标签的曲目比例。")));
   const emotion = emotionCard(summary.emotion_profile, summary.analysed);
   head.append(overview);
   host.append(layoutSections(emotion, columns("genre-overview", genre, subgenres, tonalityCard(summary.key_profile)),
     columns("analysis-grid", semanticProfile(t("微曲风画像"), summary.microgenre_profile),
       semanticProfile(t("文化审美画像"), summary.culture_profile, true)),
-    columns("mood-overview", mood, moodTags, speed)));
+    columns("analysis-grid", mood, speed)));
 }
 
 async function importMusic(selected, batchTitle = "") {

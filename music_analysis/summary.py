@@ -9,17 +9,6 @@ MOOD_AXES = ("valence", "arousal")
 MOOD_BOUNDS = (4.5, 5.5)
 VALENCE_TONES = ("偏沉郁", "明暗居中", "偏明快")
 AROUSAL_TONES = ("较平静", "激发程度居中", "推动感较强")
-MOOD_GROUPS = {
-    "活力动感": ("energetic", "powerful", "upbeat"),
-    "明快愉悦": ("happy", "positive", "fun", "funny"),
-    "平静放松": ("calm", "relaxing", "meditative", "soft"),
-    "忧郁伤感": ("melancholic", "sad"),
-    "暗色与戏剧感": ("dark", "dramatic"),
-    "浪漫亲密": ("love", "romantic", "sexy"),
-    "振奋鼓舞": ("inspiring", "uplifting", "hopeful", "motivational"),
-    "梦幻": ("dream",),
-}
-MOOD_DIRECTION = {label: direction for direction, labels in MOOD_GROUPS.items() for label in labels}
 
 
 def percentile(ordered, fraction):
@@ -343,16 +332,11 @@ def summarize_tracks(tracks, weighted=True):
                 register("genre_families", family, score)
         if "Essentia" not in report.get("issues", {}) and (report.get("mood") or {}).get("source"):
             eligible["moods"] += 1
-            directions = Counter()
             for item in report["mood"].get("tags", []):
                 if item["score"] >= .05:
                     label = item["label"]
                     score = item["score"] if weighted else 1
                     register("moods", label, score)
-                    if direction := MOOD_DIRECTION.get(label):
-                        directions[direction] = max(directions[direction], score)
-            for direction, score in directions.items():
-                register("mood_directions", direction, score)
             for axis in MOOD_AXES:
                 if (value := report["mood"].get(axis)) is not None:
                     emotion[axis].append(value)
@@ -409,7 +393,7 @@ def summarize_tracks(tracks, weighted=True):
         "moods": rows("moods", eligible["moods"]),
         "genre_profile": {"tracks": eligible["genres"], "rows": rows("genre_families", eligible["genres"], 6)},
         "key_profile": {"tracks": eligible["keys"], "modes": key_modes, "rows": rows("keys", key_total, 3)},
-        "mood_profile": {"tracks": eligible["moods"], "rows": rows("mood_directions", eligible["moods"], 6)},
+        "mood_profile": {"tracks": eligible["moods"], "rows": rows("moods", eligible["moods"], 6)},
         "microgenre_profile": semantic_profile("style"),
         "culture_profile": semantic_profile("scene"),
     }
