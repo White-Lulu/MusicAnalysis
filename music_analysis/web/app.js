@@ -519,9 +519,11 @@ function directionChart(rows, maximum = Math.max(5, Math.ceil(rows[0].share / 5)
   const chart = element("div", "", "profile-chart");
   const scale = element("div", "", "profile-scale");
   scale.append(element("small", "0%"), element("small", percent(maximum)));
-  chart.append(scale, resultRows(rows, item => element("small",
+  const list = resultRows(rows, item => element("small",
     (item.share ? coverageLabel(item.share) : "0%") + (item.tracks ? " · " + item.tracks + t(" 首") : ""), "tag-score"),
-  item => dataBar(item.share / maximum * 100)));
+  item => dataBar(item.share / maximum * 100));
+  list.classList.add("profile-rows");
+  chart.append(scale, list);
   return chart;
 }
 
@@ -683,19 +685,21 @@ function renderCollection() {
     rows: genres.rows.map(row => ({...row, label: genreFamilies[row.label] || row.label}))},
     t("条形长度表示平均曲风覆盖证据。每首歌在同一门类只取证据最强的子曲风。门类可重叠。"), examples);
   const subgenres = directionProfile(t("细分曲风排名"), {tracks: genres.tracks,
-    rows: summary.genres.slice(0, 6).map(row => {
+    rows: summary.genres.slice(0, 10).map(row => {
       const [family, ...style] = row.label.split(" › ");
       return {...row, label: [UI.label(genreFamilies[family] || family), ...style].join(" › ")};
-    })}, t("按平均覆盖证据排序，显示前六项；加权方式与大类画像一致。"));
+    })}, t("按平均覆盖证据排序，显示前十项；加权方式与大类画像一致。"));
   const mood = directionProfile(t("情绪标签画像"), summary.mood_profile,
-    t("汇总单曲的原始情绪候选，显示前六项；标签可重叠。") +
+    t("汇总单曲的原始情绪候选，显示前十项；标签可重叠。") +
     (summary.weighted ? t("百分比是平均标签匹配证据。") : t("百分比是出现该标签的曲目比例。")));
+  mood.classList.add("split-ranking");
   const emotion = emotionCard(summary.emotion_profile, summary.analysed);
   head.append(overview);
-  host.append(layoutSections(emotion, columns("genre-overview", genre, subgenres, tonalityCard(summary.key_profile)),
+  host.append(layoutSections(emotion, columns("genre-overview", genre, subgenres,
+    layoutSections(tonalityCard(summary.key_profile), speed)),
     columns("analysis-grid", semanticProfile(t("微曲风画像"), summary.microgenre_profile),
       semanticProfile(t("文化审美画像"), summary.culture_profile, true)),
-    columns("analysis-grid", mood, speed)));
+    mood));
 }
 
 async function importMusic(selected, batchTitle = "") {

@@ -356,6 +356,7 @@ def summarize_tracks(tracks, weighted=True):
 
     def semantic_profile(kind):
         ordered = sorted(distributions[kind].items(), key=lambda item: (-round(item[1], 12), item[0]))
+        limit = 10 if kind == "style" else 6
         return {"tracks": eligible[kind], "rows": [
             {"label": label, "score": round(score, 4), "tracks": occurrences[kind][label],
              **({"label_en": CATALOG[label].name,
@@ -363,7 +364,7 @@ def summarize_tracks(tracks, weighted=True):
                  "interpretation_en": CATALOG[label].interpretation_en,
                  "sound_evidence": [{"label": cue.label, "label_en": cue.name} for cue in CATALOG[label].cues]}
                 if kind == "scene" and label in CATALOG else {})}
-            for label, score in ordered[:6]]}
+            for label, score in ordered[:limit]]}
 
     key_scores = distributions["keys"]
     key_total = sum(key_scores.values())
@@ -391,9 +392,9 @@ def summarize_tracks(tracks, weighted=True):
         "genres": rows("genres", eligible["genres"]),
         "keys": rows("keys", eligible["keys"]),
         "moods": rows("moods", eligible["moods"]),
-        "genre_profile": {"tracks": eligible["genres"], "rows": rows("genre_families", eligible["genres"], 6)},
+        "genre_profile": {"tracks": eligible["genres"], "rows": rows("genre_families", eligible["genres"], 10)},
         "key_profile": {"tracks": eligible["keys"], "modes": key_modes, "rows": rows("keys", key_total, 3)},
-        "mood_profile": {"tracks": eligible["moods"], "rows": rows("moods", eligible["moods"], 6)},
+        "mood_profile": {"tracks": eligible["moods"], "rows": rows("moods", eligible["moods"], 10)},
         "microgenre_profile": semantic_profile("style"),
         "culture_profile": semantic_profile("scene"),
     }
