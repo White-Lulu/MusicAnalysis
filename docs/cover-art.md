@@ -1,26 +1,33 @@
-# 十款装饰封套
+# 十七款装饰封套
 
-这套封套使用内置 imagegen 工具生成，共十款。构图采用满版裁切与克制配色，题材包含自然、人物局部、都市摄影、流体和两款几何材质。封套仅用于视觉区分，不参与音乐分析，也不代表歌曲真实专辑或曲风。
+这套封套使用内置 imagegen 工具生成，共十七款。构图采用满版裁切与克制配色，题材包含自然、都市摄影、流体、几何材质及八款参考早期封套的版画与光影作品。封套仅用于视觉区分，不参与音乐分析，也不代表歌曲真实专辑或曲风。
 
-![十款封套总览，按编号从左到右、从上到下排列。](images/cover-collection.jpg)
+![十七款封套总览，按清单顺序从左到右、从上到下排列。](images/cover-collection.jpg)
 
 1. **叶影**：[01-botanical-shadow.webp](../music_analysis/web/sleeves/01-botanical-shadow.webp)
 2. **潮汐**：[02-ocean-nocturne.webp](../music_analysis/web/sleeves/02-ocean-nocturne.webp)
 3. **山岚**：[03-mountain-mist.webp](../music_analysis/web/sleeves/03-mountain-mist.webp)
 4. **花序**：[04-ivory-bloom.webp](../music_analysis/web/sleeves/04-ivory-bloom.webp)
 5. **墨流**：[05-ink-drift.webp](../music_analysis/web/sleeves/05-ink-drift.webp)
-6. **触感**：[06-human-gesture.webp](../music_analysis/web/sleeves/06-human-gesture.webp)
-7. **夜雨**：[07-city-after-rain.webp](../music_analysis/web/sleeves/07-city-after-rain.webp)
-8. **掠羽**：[08-heron-flight.webp](../music_analysis/web/sleeves/08-heron-flight.webp)
-9. **群青**：[09-cobalt-interlock.webp](../music_analysis/web/sleeves/09-cobalt-interlock.webp)
-10. **银折**：[10-silver-facets.webp](../music_analysis/web/sleeves/10-silver-facets.webp)
+6. **夜雨**：[07-city-after-rain.webp](../music_analysis/web/sleeves/07-city-after-rain.webp)
+7. **掠羽**：[08-heron-flight.webp](../music_analysis/web/sleeves/08-heron-flight.webp)
+8. **群青**：[09-cobalt-interlock.webp](../music_analysis/web/sleeves/09-cobalt-interlock.webp)
+9. **银折**：[10-silver-facets.webp](../music_analysis/web/sleeves/10-silver-facets.webp)
+10. **蓝晒**：[11-indigo-herbarium.webp](../music_analysis/web/sleeves/11-indigo-herbarium.webp)
+11. **岩印**：[12-stone-halftone.webp](../music_analysis/web/sleeves/12-stone-halftone.webp)
+12. **余光**：[13-silver-afterglow.webp](../music_analysis/web/sleeves/13-silver-afterglow.webp)
+13. **枝影**：[14-branch-impressions.webp](../music_analysis/web/sleeves/14-branch-impressions.webp)
+14. **潮痕**：[15-tidal-print.webp](../music_analysis/web/sleeves/15-tidal-print.webp)
+15. **月印**：[16-lunar-archive.webp](../music_analysis/web/sleeves/16-lunar-archive.webp)
+16. **山蚀**：[17-eroded-ridges.webp](../music_analysis/web/sleeves/17-eroded-ridges.webp)
+17. **窗迹**：[18-window-afterimage.webp](../music_analysis/web/sleeves/18-window-afterimage.webp)
 
 ## 生成提示词
 
-以下为最终选用的提示词。01–08 使用共同提示 A，09–10 使用共同提示 B；每次生成的完整提示为相应共同提示与该款题材提示两段拼接。
+以下为最终选用的提示词。文件名前缀 01–08 使用共同提示 A（06 已移除），09–10 使用共同提示 B，11–13 使用共同提示 C，14–18 使用共同提示 D；每次生成的完整提示为相应共同提示与该款题材提示两段拼接。
 
 <details>
-<summary>共同提示 A：自然、人物与都市题材</summary>
+<summary>共同提示 A：自然与都市题材</summary>
 
 ```text
 Create one original SQUARE album-cover artwork for a sophisticated modern music gallery. Full-bleed, visually rich composition: the recognizable subject and its organic details extend through the ENTIRE frame and are cropped naturally at the edges. Tight immersive framing, strong focal structure, subtle fine-art photographic grain, controlled contrast and a restrained harmonious palette. Contemporary, elegant, clear, with enough layered detail to reward looking closely. Every region participates; no tiny isolated object, no large blank background, no empty upper half. The subject here is natural or photographic, not an abstract geometric sculpture, paper-fold relief or arrangement of blocks. This is the artwork itself, no album mockup. No text, typography, letters, numbers, logos, watermark, frame, montage or grids.
@@ -83,15 +90,6 @@ Organic sumi-black ink suspended in water, photographed extremely close as dense
 </details>
 
 <details>
-<summary>06-human-gesture · 触感</summary>
-
-```text
-An intimate fine-art photographic study of one adult human hand and its shadow, viewed close enough that the wrist enters one edge and relaxed gracefully spread fingers extend toward and beyond the opposite edges. The hand itself occupies most of the composition; warm desaturated skin texture, subtle creases, soft side light and a deep graphite shadow create a strong organic silhouette. Anatomically correct single hand with five fingers, no extra limbs, no jewelry, no props, no face. Restrained warm monochrome, elegant and expressive, not clinical.
-```
-
-</details>
-
-<details>
 <summary>07-city-after-rain · 夜雨</summary>
 
 ```text
@@ -123,6 +121,98 @@ Deep ultramarine-blue circular segments, broad chalk-white paper strips and a si
 
 ```text
 A tightly cropped architectural composition made entirely of folded satin-brushed aluminum planes. Four large diagonal silver and charcoal facets meet and overlap, filling the frame with crisp seams, muted reflections and deep narrow shadows. Some folds exit every image edge. Restrained monochrome luxury, beautiful physical material, no central small metal object.
+```
+
+</details>
+
+<details>
+<summary>共同提示 C：参考最初六张的印刷与光影风格</summary>
+
+```text
+Use case: stylized-concept. Asset: one original SQUARE full-bleed album-cover artwork. The supplied six-panel image is a STYLE REFERENCE ONLY: borrow the tactile print textures, artistic layering, botanical/photographic fragments and rhythmic abstract gestures, without copying a panel or returning a collage of covers. Generate ONE complete square artwork. Bring the reference toward a quieter independent-record and fine-art print sensibility: restrained, mature, slightly archival, beautifully composed, with subtle paper grain and analogue imperfection. Keep the picture visually full, with large overlapping elements and detail extending off the edges; no tiny object on a blank field, no empty upper half. Avoid the reference's loud neon, highly saturated pop styling, rainbow chrome and slick futuristic CGI. No people, hands, lettering, logos, watermark, decorative frame or grid.
+```
+
+</details>
+
+<details>
+<summary>11-indigo-herbarium · 蓝晒</summary>
+
+```text
+Ink-blue botanical photogram / vintage cyanotype print on warm ivory rag paper. Large wildflower seedheads, delicate branching stems and soft fern shadows overlap from edge to edge, with slight imperfect ink registration and rich contact-print detail. Combine recognizable organic forms with broad soft shadow masses, more like a refined independent record sleeve than a decorative botanical poster. Palette limited to desaturated midnight-indigo, smoke blue-grey and warm cream. No orange dot, no generic geometric icon, no blank margins.
+```
+
+</details>
+
+<details>
+<summary>12-stone-halftone · 岩印</summary>
+
+```text
+A tactile monochrome-and-rust screenprint composition combining large close-cropped geological stone surfaces, soft photographic shadow fragments, a few oversized circular print impressions and irregular paper edges. The natural rock image must remain clearly present so this is not merely geometric abstraction. Subtle coarse-to-fine halftone dots and tiny misregistered ink marks create analogue rhythm across the entire square. Use charcoal, warm grey, bone white and a small deep oxidized-red accent. Full-frame layered graphic composition, sophisticated and calm, no acidic yellow, violet pop colors or optical tunnel.
+```
+
+</details>
+
+<details>
+<summary>13-silver-afterglow · 余光</summary>
+
+```text
+A silver-gelatin photographic double exposure of wind-blown reeds and shimmering dark river water, crossed by two or three broad, soft long-exposure traces of warm ivory light. Recognizable fine organic reed silhouettes and water reflections remain under the flowing traces. Crop closely so the organic rhythm and light movement continue off every edge, no empty black corner. The mood is slow, tactile and quietly musical, closer to an archival experimental photograph than a neon poster. Palette charcoal, silver-grey, bone white and only a faint muted copper warmth. No literal glowing ring, rainbow metal, paper ribbons or 3D sculpture.
+```
+
+</details>
+
+<details>
+<summary>共同提示 D：延续纸感与网印风格</summary>
+
+参考图为本套的蓝晒、岩印、余光三张。
+
+```text
+Use case: stylized-concept. Create ONE original SQUARE full-bleed album-cover artwork. The three supplied images are STYLE REFERENCES ONLY: retain their archival independent-record-sleeve sensibility, tactile rag-paper texture, analogue photographic layering, cyanotype/screenprint grain, soft imperfect ink registration and quiet organic light traces. Do not reproduce one of the images, and do not return a triptych or grid. Make the composition visually full: large overlapping forms, natural photographic fragments and restrained graphic masses extend off every edge, with no tiny isolated object, no large blank upper half and no empty margins. Mature, artistic and slightly archival; subtle asymmetry and controlled tonal depth. Restrained desaturated color, no neon, acid colors, rainbow chrome, slick futuristic CGI or shiny generic 3D sculpture. No people, hands, text, lettering, numbers, logos, watermark or border.
+```
+
+</details>
+
+<details>
+<summary>14-branch-impressions · 枝影</summary>
+
+```text
+A full-frame analogue print built from large bare tree branches and fine leaf shadows, double-exposed over a softly visible woodland edge and textured warm-ivory paper. Branches sweep across the entire square with a few broad smoky grey ink masses, delicate botanical details and subtle ghosted registration. The scene should remain recognizable as wood and trees, with a thoughtful screenprinted photographic rhythm. Palette charcoal, muted olive-grey, warm cream and a very small faded ochre undertone.
+```
+
+</details>
+
+<details>
+<summary>15-tidal-print · 潮痕</summary>
+
+```text
+A close-cropped coastal photogravure collage: dark seaweed silhouettes, pale tide foam, rippled water and a broad weathered shore fragment overlap naturally across the square. Fine halftone grain and gently torn paper transitions unify the layers; the eye follows one sweeping organic tidal gesture. Natural coastal detail is recognizable, but the overall artwork is spare and deliberate. Muted petrol-blue, slate-grey, bone white and a trace of faded rust. No empty sky, no clean geometric discs.
+```
+
+</details>
+
+<details>
+<summary>16-lunar-archive · 月印</summary>
+
+```text
+An archival lunar photogram and print composition. A huge softly edged moon surface with visible crater-like texture is cropped beyond the top and right edges, overlapping smoky photographic cloud shadows and two broad imperfect ink impressions. Fine screenprint dots, rubbed charcoal texture and subtle paper grain cover the full frame. The celestial surface should feel tactile and discovered in an old photographic archive, not futuristic space art or a simple flat circle on empty paper. Palette charcoal, warm bone white, faded blue-grey and a tiny muted brick-red registration accent.
+```
+
+</details>
+
+<details>
+<summary>17-eroded-ridges · 山蚀</summary>
+
+```text
+A richly layered but restrained full-frame mountain photogravure. Large weathered ridges and stone strata cross diagonally through the square, with misty photographic mountain fragments, delicate etched contour-like marks, coarse-to-fine halftone texture and narrow soft ivory light leaks between layers. Keep recognizable geological imagery and a mature independent-record-cover composition, no decorative map labels or literal geometric blocks. Palette warm grey, soft charcoal, ivory and dry desaturated clay.
+```
+
+</details>
+
+<details>
+<summary>18-window-afterimage · 窗迹</summary>
+
+```text
+A quiet archival double-exposure photograph of an old window and its reflected leafy branches, rendered as a tactile fine-art print. Cropped window shadows, rain-softened glass, thin plant silhouettes and a gentle warm light trace overlap across the entire square. The architecture is a photographic fragment rather than clean graphic rectangles; subtle soft-focus and imperfect ink transfer unify the organic and urban details. Palette smoke-grey, ink-black, warm cream and faint dusty copper. No readable signage, people, neon or empty wall.
 ```
 
 </details>

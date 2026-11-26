@@ -10,7 +10,9 @@ const importButtons = [$("choose-files"), $("choose-folder")];
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 const statuses = { queued: "等待分析", running: "分析中", done: "已分析", error: "分析失败" };
 const sleeveArt = ["01-botanical-shadow", "02-ocean-nocturne", "03-mountain-mist", "04-ivory-bloom",
-  "05-ink-drift", "06-human-gesture", "07-city-after-rain", "08-heron-flight", "09-cobalt-interlock", "10-silver-facets"];
+  "05-ink-drift", "07-city-after-rain", "08-heron-flight", "09-cobalt-interlock", "10-silver-facets",
+  "11-indigo-herbarium", "12-stone-halftone", "13-silver-afterglow",
+  "14-branch-impressions", "15-tidal-print", "16-lunar-archive", "17-eroded-ridges", "18-window-afterimage"];
 const sleeveSlots = new Map();
 const sleeveCounts = sleeveArt.map(() => 0);
 let noticeTimer, pendingPlayhead, playbackFallback = false, lastListRequest = 0, summaryRequest = 0;
