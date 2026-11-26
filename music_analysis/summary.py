@@ -374,7 +374,11 @@ def summarize_tracks(tracks, weighted=True):
         ordered = sorted(distributions[kind].items(), key=lambda item: (-round(item[1], 12), item[0]))
         return {"tracks": eligible[kind], "rows": [
             {"label": label, "score": round(score, 4), "tracks": occurrences[kind][label],
-             **({"label_en": CATALOG[label].name} if kind == "scene" and label in CATALOG else {})}
+             **({"label_en": CATALOG[label].name,
+                 "interpretation": CATALOG[label].interpretation,
+                 "interpretation_en": CATALOG[label].interpretation_en,
+                 "sound_evidence": [{"label": cue.label, "label_en": cue.name} for cue in CATALOG[label].cues]}
+                if kind == "scene" and label in CATALOG else {})}
             for label, score in ordered[:6]]}
 
     key_scores = distributions["keys"]

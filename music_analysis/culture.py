@@ -1,68 +1,41 @@
-"""Conservative audio cues, compared with matched ordinary-music descriptions."""
+"""Aesthetic associations requiring a concept and two independent sound descriptions."""
 import numpy as np
 
-VERSION = 1
+VERSION = 2
 def culture_prompts(tag):
-    name, description = tag.reference.split(" :: ", 1)
-    return ((f"This is {tag.name} music.", f"Music featuring {tag.description}."),
-            (f"This is {name} music.", f"Music featuring {description}."))
+    return ((f"Music associated with {tag.name}.", *(f"Music featuring {cue.description}." for cue in tag.cues)),
+            (f"Music associated with {tag.reference}.", *(f"Music featuring {cue.reference}." for cue in tag.cues)))
 MIN_CONCEPT_SIMILARITY = .30
 MIN_SOUND_SIMILARITY = .45
 MIN_MARGIN = .02
 WINDOW_MARGIN = .01
 MIN_SUPPORT = .5
 MIN_CONTEXT_COVERAGE = 20
-VOCAL_CUES = {"cue-call-and-response", "cue-voice-recitation", "cue-family-chorus", "cue-sing-along",
-              "cue-movement-song", "cue-gospel-choir", "cue-synthetic-singer", "cue-musical-theatre"}
+MIN_CONCEPT_GAP = .01
+VOCAL_CUES = {"cue-y2k", "cue-swag-2000s", "cue-digicore", "cue-scenecore", "cue-nightcore",
+              "cue-synthetic-singer", "cue-emo-dynamics", "cue-goth-electronic", "cue-diy-band",
+              "cue-ballroom-runway", "cue-musical-theatre", "cue-arabic-ensemble",
+              "cue-west-african-strings", "cue-flamenco", "cue-gospel-choir", "cue-sacred-chant"}
 
 
 def compatible_context(tag, genres):
     """Require independent genre context for claims with a narrow musical setting."""
     labels = [row.get("full_label", "") for row in genres if row.get("coverage", 0) >= MIN_CONTEXT_COVERAGE]
-    if tag.family == "地区与传统":
-        return any(label.startswith("Folk, World, & Country---") or any(
-            word in label for word in ("Chinese Classical", "Indian Classical", "Gamelan", "Flamenco")) for label in labels)
-    if tag.id == "cue-y2k":
-        return any(label.startswith("Hip Hop---") or any(word in label for word in
-            ("Synth-pop", "Contemporary R&B", "RnB/Swing", "Teen Pop", "Dance-pop", "UK Garage")) for label in labels)
-    if tag.id == "cue-nineties-sampling":
-        return any(label.startswith("Hip Hop---") and any(word in label for word in
-            ("Boom Bap", "Instrumental", "Jazzy", "Jazz-Rap", "Abstract", "Turntablism")) or
-            "Trip Hop" in label for label in labels)
-    if tag.id == "cue-vintage-studio":
-        return any(label.startswith(("Rock---", "Jazz---", "Funk / Soul---")) for label in labels)
-    if tag.id == "cue-processional":
-        return any(label.startswith("Brass & Military---") or "March" in label or
-                   label.startswith("Folk, World, & Country---") for label in labels)
-    if tag.id in {"cue-family-chorus", "cue-sing-along", "cue-movement-song"}:
-        return any(label.startswith("Children's---") for label in labels)
-    if tag.id in {"cue-club-build", "cue-festival-drop", "cue-warehouse-rave", "cue-ballroom-runway"}:
-        return any(label.startswith("Electronic---") and not any(word in label for word in
-            ("Ambient", "Downtempo", "IDM", "Drone", "New Age")) for label in labels)
-    if tag.id == "cue-plugg-keys":
-        return any(label.startswith("Hip Hop---") for label in labels)
-    if tag.id in {"cue-diy-band", "cue-emo-dynamics", "cue-postrock-build"}:
-        return any(label.startswith("Rock---") for label in labels)
-    if tag.id == "cue-goth-electronic":
-        return any(word in label for label in labels for word in ("Darkwave", "Goth", "Synth-pop", "Post-Punk"))
-    if tag.id == "cue-ambient-immersive":
-        return any(word in label for label in labels for word in ("Ambient", "Drone", "New Age"))
-    if tag.id == "cue-experimental-collage":
-        return any(word in label for label in labels for word in ("Glitch", "Breakcore", "Experimental", "Noise", "Avantgarde"))
-    return True
+    return any(word in label for label in labels for word in tag.contexts)
 
 
-def culture_evidence(vectors, rms, tags, positive, reference, genres=(), vocal_margin=None, mono_check=False):
+def culture_evidence(vectors, rms, tags, positive, reference, genres=(), vocal_margin=None):
     """Scores are contrastive evidence, never probabilities or cultural identity."""
     vectors = np.asarray(vectors)
     valid = np.isfinite(vectors).all(axis=1) & np.isfinite(rms) & (np.asarray(rms) >= .0001)
     minimum = MIN_MARGIN * (2 if valid.sum() == 1 else 1)
     metadata = {"version": VERSION, "status": "insufficient_evidence",
                 "sampled_windows": len(vectors), "valid_windows": int(valid.sum()),
-                "tested_labels": len(tags), "score_type": "contrastive_evidence",
+                "tested_labels": len(tags), "score_type": "aesthetic_evidence",
                 "criteria": {"concept_similarity": MIN_CONCEPT_SIMILARITY, "sound_similarity": MIN_SOUND_SIMILARITY, "mean_margin": minimum,
                              "window_margin": WINDOW_MARGIN, "support": MIN_SUPPORT,
-                             "context_coverage": MIN_CONTEXT_COVERAGE}}
+                             "context_coverage": MIN_CONTEXT_COVERAGE, "sound_descriptions": 2,
+                             "competing_concept_gap": MIN_CONCEPT_GAP}}
     if not valid.any():
         return [], metadata
     if not np.isfinite(positive).all() or not np.isfinite(reference).all():
@@ -74,35 +47,50 @@ def culture_evidence(vectors, rms, tags, positive, reference, genres=(), vocal_m
     raw = similarity.mean(axis=(0, 2))
     prompt_similarity = similarity.mean(axis=0)
     margin = gaps.mean(axis=(0, 2))
-    # Both phrasings must beat their matched references in a supporting window.
+    # The concept and both sound descriptions must agree within the same excerpt.
     hits = (gaps >= WINDOW_MARGIN).all(axis=2).sum(axis=0)
     support = hits / valid.sum()
     agreement = gaps.mean(axis=0).min(axis=1)
     ranking = []
     for index, tag in enumerate(tags):
-        if (prompt_similarity[index, 0] < MIN_CONCEPT_SIMILARITY or prompt_similarity[index, 1] < MIN_SOUND_SIMILARITY or margin[index] < minimum or
+        if (prompt_similarity[index, 0] < MIN_CONCEPT_SIMILARITY or prompt_similarity[index, 1:].min() < MIN_SOUND_SIMILARITY or margin[index] < minimum or
                 agreement[index] < WINDOW_MARGIN or support[index] < MIN_SUPPORT or not compatible_context(tag, genres)):
-            continue
-        if tag.id == "cue-early-mono" and not mono_check:
             continue
         if tag.id in VOCAL_CUES and (vocal_margin is None or np.mean(np.asarray(vocal_margin)[valid]) < .01 or
                                     np.mean(np.asarray(vocal_margin)[valid] >= .01) < MIN_SUPPORT):
             continue
-        score = float(margin[index] * support[index])
+        score = float(agreement[index] * support[index])
         ranking.append({"label": tag.label, "label_en": tag.name, "id": tag.id, "kind": "scene", "family": tag.family,
                         "branch": tag.branch, "score": round(score, 4),
                         "audio_similarity": round(float(raw[index]), 4),
                         "reference_similarity": round(float(baseline[:, index].mean()), 4),
                         "margin": round(float(margin[index]), 4), "support": round(float(support[index]), 4),
                         "support_windows": int(hits[index]), "windows": int(valid.sum()),
-                        "evidence": "Matched-reference contrast and window agreement"})
+                        "interpretation": tag.interpretation, "interpretation_en": tag.interpretation_en,
+                        "concept_similarity": round(float(prompt_similarity[index, 0]), 4),
+                        "concept_margin": round(float(gaps[:, index, 0].mean()), 4),
+                        "sound_evidence": [
+                            {"label": cue.label, "label_en": cue.name,
+                             "similarity": round(float(prompt_similarity[index, view]), 4),
+                             "margin": round(float(gaps[:, index, view].mean()), 4),
+                             "support_windows": int(np.count_nonzero(gaps[:, index, view] >= WINDOW_MARGIN)),
+                             "windows": int(valid.sum())}
+                            for view, cue in enumerate(tag.cues, 1)],
+                        "evidence": "Concept and two matched-reference sound descriptions; excerpt agreement"})
     ranking.sort(key=lambda row: (-row["score"], row["id"]))
-    selected, families = [], set()
+    ambiguous = set()
     for row in ranking:
-        if row["family"] in families:
+        for other in ranking:
+            if row["id"] != other["id"] and row["branch"] == other["branch"] and abs(row["concept_margin"] - other["concept_margin"]) < MIN_CONCEPT_GAP:
+                ambiguous.update((row["id"], other["id"]))
+    metadata["ambiguous_concepts"] = len(ambiguous)
+    selected, families, branches = [], set(), set()
+    for row in ranking:
+        if row["family"] in families or row["branch"] in branches or row["id"] in ambiguous:
             continue
         selected.append(row)
         families.add(row["family"])
+        branches.add(row["branch"])
         if len(selected) == 3:
             break
     if selected:

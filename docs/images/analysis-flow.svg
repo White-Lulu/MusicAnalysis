@@ -71,7 +71,7 @@
       <rect class="node" x="604.5" y="390.5" width="231" height="129"/>
       <text class="model" x="720" y="430">LAION CLAP</text>
       <text class="detail" x="720" y="466">微曲风候选</text>
-      <text class="detail" x="720" y="494">文化声音线索</text>
+      <text class="detail" x="720" y="494">文化审美倾向</text>
     </g>
     <path class="link" d="M844 455h22"/>
     <g id="phonk">
@@ -118,7 +118,7 @@
       <rect class="node" x="1090.5" y="682.5" width="285" height="129"/>
       <text class="heading" x="1233" y="722.5">听感散点与文字报告</text>
       <text class="compact" x="1233" y="758.5">速度 · 曲风 · 调性 · 情绪画像</text>
-      <text class="compact" x="1233" y="790.5">微曲风 / 文化线索累计排名</text>
+      <text class="compact" x="1233" y="790.5">微曲风 / 文化审美累计排名</text>
     </g>
   </g>
 </svg>

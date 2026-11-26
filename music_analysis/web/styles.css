@@ -189,6 +189,8 @@ input::placeholder { color: var(--muted); }
 .tag-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 5px 9px; padding: 12px 0; border-bottom: 1px solid var(--line); }
 .tag-row:last-child { border-bottom: 0; }
 .tag-row .extra { grid-column: 1 / -1; }
+.culture-reading { display: grid; gap: 8px; }
+.culture-interpretation { font-size: 13px; line-height: 1.8; }
 .tag-title { font-size: 12px; font-weight: 550; overflow-wrap: anywhere; }
 .tag-score { font-size: 11px; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .bar-bg { width: 100%; height: 4px; background: var(--panel); overflow: hidden; }

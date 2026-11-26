@@ -368,12 +368,12 @@ function libraryView() {
   const semantic = card(t("微曲风候选"), t("每个分支取一个候选。排序参考曲风覆盖，显示 CLAP 相似度。"));
   semantic.append(resultRows(styles, score, item => item.branch && element("small", UI.label(item.branch), "info")));
 
-  const culture = card(t("文化线索"), t("最多三项声音线索，需通过对照与片段一致性检查。无法据此判断发行年代或文化身份。"));
+  const culture = card(t("文化审美倾向"), t("最多三项审美关联，附文化解读与声音依据；不据此认定年代、地域或身份。"));
   const scenes = candidates.filter(row => row.kind === "scene");
   if (scenes.length) culture.append(resultRows(scenes,
     item => element("small", t("证据 ") + item.score.toFixed(3), "tag-score"),
-    item => element("small", UI.label(item.family) + " · " + t("支持片段 ") + item.support_windows + " / " + item.windows, "info")));
-  else culture.append(element("p", t("暂无通过证据检查的文化线索。"), "compact-empty"));
+    cultureDetails));
+  else culture.append(element("p", t("暂无有充分声音依据的文化审美倾向。"), "compact-empty"));
   head.append(overview);
   const stylesAndCulture = layoutSections(genre, semantic, culture);
   const report = layoutSections(columns("analysis-grid", layoutSections(mood, instruments), stylesAndCulture));
@@ -537,18 +537,33 @@ function directionProfile(title, profile, note, examples = []) {
   return panel;
 }
 
+function cultureDetails(item) {
+  const detail = element("div", "", "culture-reading");
+  const reading = UI.language === "en" ? item.interpretation_en : item.interpretation;
+  if (reading) detail.append(element("p", reading, "culture-interpretation"));
+  if (item.sound_evidence?.length) detail.append(element("p", t("声音依据（描述匹配）：") +
+    item.sound_evidence.map(cue => UI.language === "en" ? cue.label_en : cue.label).join(" · "), "info"));
+  if (Number.isFinite(item.support_windows)) detail.append(element("small",
+    t("支持片段 ") + item.support_windows + " / " + item.windows, "info"));
+  return detail;
+}
+
 function semanticProfile(title, profile, culture = false) {
   const panel = card(title, t("基于 ") + profile.tracks + t(" 首有相关分析的曲目。") +
-    t(culture ? "累加已通过检查的文化候选证据，最多显示六项；证据不足的曲目不强行分配标签。" :
+    t(culture ? "累加有声音依据的文化审美关联，最多显示六项；证据不足的曲目不分配标签。" :
       "同一曲目只计一次，累加各曲目前三项候选的匹配分数。"));
   if (culture && !profile.rows.length) {
-    panel.append(element("p", t("暂无通过证据检查的文化线索。"), "compact-empty"));
+    panel.append(element("p", t("暂无有充分声音依据的文化审美倾向。"), "compact-empty"));
     return panel;
   }
   const maximum = Math.max(0, ...profile.rows.map(row => row.score));
   panel.append(resultRows(profile.rows, row => element("small",
     t(culture ? "累计证据 " : "累计 ") + row.score.toFixed(3) + " · " + row.tracks + t(" 首"), "tag-score"),
-  row => row.score > 0 && maximum > 0 ? dataBar(row.score / maximum * 100) : null));
+  row => {
+    const extra = culture ? cultureDetails(row) : element("div");
+    if (row.score > 0 && maximum > 0) extra.prepend(dataBar(row.score / maximum * 100));
+    return extra;
+  }));
   return panel;
 }
 
@@ -674,7 +689,7 @@ function renderCollection() {
   head.append(overview);
   host.append(layoutSections(emotion, columns("genre-overview", genre, subgenres, tonalityCard(summary.key_profile)),
     columns("analysis-grid", semanticProfile(t("微曲风画像"), summary.microgenre_profile),
-      semanticProfile(t("文化线索画像"), summary.culture_profile, true)),
+      semanticProfile(t("文化审美画像"), summary.culture_profile, true)),
     columns("analysis-grid", mood, speed)));
 }
 

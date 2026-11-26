@@ -314,7 +314,7 @@ class Library:
             return con.execute("""
                 UPDATE tracks SET state = 'running', error = NULL WHERE id = (
                   SELECT id FROM tracks WHERE state = 'queued' ORDER BY added LIMIT 1
-                ) RETURNING id,path,CASE WHEN json_extract(report,'$.version') IN (6,8,10,11) THEN report END AS previous
+                ) RETURNING id,path,CASE WHEN json_extract(report,'$.version') IN (6,8,10,11,12) THEN report END AS previous
             """).fetchone()
 
     def finish(self, track_id, report=None, error=None):

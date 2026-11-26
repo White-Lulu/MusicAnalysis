@@ -20,12 +20,6 @@ def group(family, branch, rows, kind="style"):
         yield Tag(key, name, sound, family, branch, kind, tuple(aliases))
 
 
-def scene_group(family, rows):
-    for line in rows.strip().splitlines():
-        key, label, name, sound, reference, *aliases = line.strip().split(" | ")
-        yield Tag("cue-" + key, label, sound, family, family, "scene", tuple(aliases), reference, name)
-
-
 STYLES = (
     *group("Electronic", "House", """
 deep-house | Deep House | deep house with warm jazzy chords, a rounded bassline and a steady kick
@@ -310,99 +304,7 @@ sound-art | Sound Art | arranged sound textures, environmental recordings and ab
 )
 
 
-SCENES = (
-    *scene_group("年代音色", """
-early-mono | 窄带单声道音色 | Band-limited mono texture | band-limited mono music with a narrow centered soundstage, softened high frequencies and clearly audible low-fidelity recording texture | clean recording :: a clean full-bandwidth music recording
-vintage-studio | 复古乐队录音室制作 | Vintage analog studio production | vintage soul or psychedelic studio sound with saturated tape, spring reverb, Hammond organ and a dry live rhythm section | modern studio band :: a studio band playing guitars, keyboards, bass and drums
-eighties-synth | 80 年代合成器制作 | 1980s synth-pop production | 1980s synth-pop production with gated snare reverb, FM electric keys, analog sequencer bass and glossy synthesizer leads | modern electronic pop :: electronic pop music with keyboards, a bassline and drums
-nineties-sampling | 90 年代采样制作 | 1990s boom-bap sampling | dusty 1990s boom-bap sampling with chopped vinyl breaks, audible record scratches, short jazz loops and swinging MPC drums | modern hip-hop :: hip-hop music with sampled instruments and programmed drums
-y2k | Y2K | Y2K revival internet music | nostalgic early-internet pop or melodic rap with glossy retro-digital synth bells, twinkling rompler keys, chopped R&B samples and hazy pitch-processed vocals over syncopated drums | contemporary pop and melodic rap :: contemporary pop or R&B with sung vocals, keyboard chords, a bassline and electronic drums | Y2K 流行／R&B 制作
-swag-2000s | 2000sswag | 2000s underground swag rap | nostalgic underground melodic rap with an audible rapped lead, chopped soul samples, glossy digital synth phrases and loose swaggering hip-hop drums | contemporary melodic hip-hop :: melodic hip-hop with vocals, synthesizers and a drum beat | 2000sswag 地下旋律说唱
-seventies-disco | 70 年代迪斯科制作 | 1970s disco production | vintage disco production with wah-wah rhythm guitar, sweeping string sections, syncopated octave bass and handclaps around a live four-on-the-floor beat | contemporary dance :: dance music with bass, strings, guitars and a steady drum beat
-nineties-rave | 90 年代锐舞音色 | 1990s rave production | early rave sound with sampled orchestra-hit stabs, hoover synths, chopped breakbeats, pitched vocal shouts and harsh digital sampler texture | contemporary electronic dance :: fast electronic dance music with synthesizers and drums
-    """),
-    *scene_group("网络制作", """
-vaporwave | Vaporwave 声音线索 | Vaporwave | slowed and pitch-lowered smooth-jazz or commercial-pop samples with woozy loops, artificial reverb and an obviously warped nostalgic texture | smooth instrumental :: smooth instrumental music with synthesizers, saxophone and a relaxed beat
-future-funk | Future Funk 声音线索 | Future funk sample editing | tightly chopped disco or Japanese city-pop samples repeatedly gated to a pumping house kick with bright filter sweeps | disco and house :: upbeat disco or house music with vocals and a dance beat
-mallsoft | Mallsoft 空间音色 | Mallsoft | muffled instrumental easy-listening music heard through a distant shopping-mall speaker with oversized empty-room reverberation | easy-listening background :: instrumental background music with a soft melody and reverb
-digicore | Digicore 数字制作 | Digicore | intimate pitch-corrected rap singing over brittle clipped drums, glittering synthetic arpeggios and abrupt glitchy digital edits | melodic electronic rap :: melodic rap with synthesizers, sung vocals and electronic drums
-scenecore | Scenecore 失真制作 | Scenecore | heavily pitch-shifted autotuned vocals, distorted buzzy synth leads, clipped club drums and harsh compressed digital effects | electronic pop :: fast electronic pop music with processed vocals and synthesizers
-anime-break-edit | 动画采样碎拍剪辑 | Anime-sample breakbeat edits | clearly chopped anime-like spoken or sung voice samples abruptly interrupted by rapidly rearranged jungle breaks and glitch cuts | fast breakbeat :: fast breakbeat music with vocals and electronic sounds
-phonk-edit | Phonk 漂移剪辑音色 | Drift phonk edits | clipped cowbell riffs and heavily distorted 808 bass under chopped low Memphis-style rap shouts with aggressive abrupt edit transitions | bass-heavy hip-hop :: bass-heavy hip-hop with rap vocals and electronic percussion
-tracker-scene | Tracker／Demoscene 音色 | Tracker and demoscene music | old tracker-module sound with tiny looping instrument samples, arpeggiated chip leads, rigid channel-limited drums and crunchy low-bit playback | sequenced electronic :: instrumental electronic music with arpeggios and programmed drums
-speed-edit | 变速剪辑音色 | Sped-up pitch-shifted edits | conspicuously accelerated and high-pitched recorded singing with unnaturally fast syllables, chipmunk-like formants and shortened drum transients | fast pop :: fast pop music with high-register vocals and a drum beat
-synthetic-singer | 合成歌声音色 | Vocaloid-style synthetic singing | an artificial singing voice with sharply synthesized vowel changes, robotic consonants, perfectly stepped pitch and synthetic breaths | pitch-corrected human singing :: a human lead singer with pitch correction and electronic accompaniment
-short-edit | 短段拼接线索 | Hard-cut audio edits | repeated very short hook snippets interrupted by reverse swells, tape-stop effects, hard jump cuts and abrupt changes of audio texture | conventionally arranged :: music with repeated melodic phrases and ordinary transitions
-    """),
-    *scene_group("录音制作", """
-tape-texture | 磁带质感 | Cassette tape texture | clearly audible cassette hiss, fluttering pitch, softened treble and magnetic-tape saturation around the music | warm clean recording :: a warm music recording with soft high frequencies
-lofi-collage | Lo-Fi 采样拼贴 | Lo-fi sample collage | vinyl crackle and dusty chopped samples with disjointed loop edges, deliberately degraded fidelity and short collage-like edits | sampled instrumental :: music with repeating sampled instruments and a relaxed rhythm
-intimate-room | 近距小空间录音感 | Intimate home recording | a very close unpolished acoustic performance with audible breathing, finger noise, short room reflections and quiet domestic background sounds | clean acoustic studio :: a clean studio recording of acoustic instruments and a singer
-large-hall | 大厅演奏空间感 | Concert hall acoustics | distant acoustic musicians surrounded by a long naturally decaying concert-hall reverberation and a wide ensemble soundstage | reverberant instrumental :: orchestral or instrumental music with added reverb
-live-audience | 现场观众声线索 | Live audience sounds | music accompanied by clearly audible crowd cheers, applause, audience singing and calls from the stage | studio performance :: a clean studio music performance with instruments and vocals
-dense-digital | 高密度数字制作 | Clipped dense digital production | extreme audible sidechain pumping, brickwall-clipped transients, sharply spliced synth layers and deliberately crushed digital distortion | loud electronic :: a loud electronic recording with synthesizers and drums
-wall-of-sound | 噪音墙叠层质感 | Shoegaze wall of sound | many layers of fuzzy reverberant guitars merging into a nearly continuous noisy wall with buried vocals and slow-moving harmonies | distorted guitar rock :: rock music with distorted electric guitars and sung vocals
-field-recording | 环境实录融合 | Musical field recordings | audible rain, birds, street voices or other natural environmental recordings integrated as a prominent continuous musical layer | atmospheric instrumental :: atmospheric instrumental music with synthetic background textures
-vinyl-scratch | 唱盘刮碟制作 | Turntable scratching | rhythmic back-and-forth vinyl scratching, turntable rewinds, crossfader cuts and repeated tiny sampled syllables | sampled hip-hop :: sampled hip-hop music with drums and a vocal
-acoustic-one-take | 原声同期演奏感 | Acoustic live-room recording | audible shared-room acoustic performance with count-ins, chair or finger noises, natural instrumental bleed and small live timing variations | acoustic studio :: polished studio music played on acoustic instruments
-    """),
-    *scene_group("舞池与表演", """
-sound-system | Sound System 制作语汇 | Dub sound-system mixing | dub sound-system mixing with exceptionally deep sub-bass, sparse offbeat skanks, long ping-pong tape echoes and sudden reverb dropouts | bass-heavy :: bass-heavy music with a steady rhythm and reverberant instruments
-club-build | 舞池渐进编排 | DJ-friendly club arrangement | extended DJ-friendly club arrangement with an exposed kick intro, gradual filter builds, a tension break and a clear beat drop | electronic dance :: electronic dance music with a regular beat and repeating synthesizer phrases
-street-dance | 街舞断拍线索 | Breakdance drum loops | exposed funk drum breaks repeatedly looped for dance, turntable cuts and sharply syncopated breakdance accents | syncopated funk :: groove-based music with a bassline and syncopated drums
-festival-drop | 音乐节式落差编排 | Festival EDM drops | a huge electronic build with snare-roll acceleration and a rising pitch sweep followed by a sudden loud festival-style bass drop | electronic dance :: energetic electronic dance music with synthesizers and drums
-warehouse-rave | 仓库锐舞空间感 | Industrial warehouse rave | pounding industrial kick loops, raw distorted percussion and long cavernous warehouse-like echoes around repetitive machine rhythms | electronic techno :: repetitive techno music with electronic percussion
-ballroom-runway | Ballroom／Runway 律动 | Ballroom vogue runway music | a stripped runway house beat with sharply chopped diva commands, repeated crash accents and a syncopated dramatic vogue-like rhythmic pattern | house :: house music with sampled voices and a steady dance beat
-latin-party | 拉丁舞会打击编制 | Afro-Latin dance ensemble | a clear Afro-Latin clave pattern with interlocking congas, timbales, cowbell, piano montuno and a dance-band bass tumbao | rhythmic band :: rhythmic band music with percussion, piano and bass
-    """),
-    *scene_group("影视与游戏配乐", """
-chip-game | 旧游戏机式音色 | Chiptune console timbres | unmistakable early-console square and triangle wave melodies with rapid chip arpeggios and primitive noise-channel drums | synthesized instrumental :: electronic instrumental music with simple synthesized melodies
-percussion-loop | 互动配乐式循环 | Looping game-score timbres | a short seamless game-like instrumental loop with a persistent sequenced ostinato, repeated cue-like returns and game-synth timbres | repetitive instrumental :: instrumental music with repeated melodic phrases and a regular beat
-game-battle | 游戏战斗式编配 | Video-game battle arrangement | tightly looped urgent battle-score riffs with rapid sequenced string ostinatos, emphatic synthetic brass hits and driving game-like percussion | energetic instrumental :: energetic instrumental music with strings, synthesizers and drums
-cinematic-build | 电影配乐式推进 | Cinematic dramatic build | a cinematic tension arc with rising orchestral ostinatos, a large crescendo, low impact booms and a clear dramatic release | dynamic orchestral :: instrumental music with changing loudness and orchestral instruments
-orchestral-score | 影视管弦叙事线索 | Orchestral film-score arrangement | narrative orchestral cue with recurring character-like motifs, synchronized dramatic hits and changing strings, brass and woodwind sections | orchestral concert :: an orchestral concert performance
-suspense-score | 悬疑氛围声线索 | Electronic suspense underscore | a sparse suspense underscore with isolated sub-bass pulses, dissonant drones, eerie bowed textures and long deliberate gaps | ambient electronic :: quiet ambient electronic music with sustained tones
-anime-score | 动画配乐式编配 | Anime-score arrangement | expressive anime-score-like melody moving between intimate piano, emotional bowed strings and a sudden bright band or orchestral swell | melodic instrumental :: melodic instrumental music with piano and strings
-musical-theatre | 音乐剧式演唱 | Musical-theatre singing | clearly theatrical character singing with dialogue-like phrasing, dramatic ensemble responses and synchronized stage-orchestra accents | orchestral pop :: a pop singer accompanied by a band or orchestra
-    """),
-    *scene_group("地区与传统", """
-east-asian-ensemble | 东亚丝竹式编制 | East Asian silk-and-bamboo ensemble | interwoven bamboo flute, bowed erhu-like strings and bright plucked zithers with sliding ornamented pentatonic phrases | acoustic flute and strings :: acoustic instrumental music with flute and string instruments
-modal-improv | 调式即兴线索 | Raga-like modal improvisation | free raga-like melodic improvisation with ornamented sitar or voice, microtonal bends, a continuous tanpura drone and responsive tabla patterns | acoustic improvisation :: improvised acoustic instrumental music with melody and percussion
-interlocking-gongs | 锣鼓与金属琴交错合奏 | Interlocking gamelan ensemble | clearly pitched gamelan-like gongs and metallophones playing overlapping cyclic interlocking parts with resonant metallic decay | tuned percussion :: rhythmic instrumental music with bells and percussion
-layered-hand-drums | 多层手鼓舞曲线索 | Interlocking hand-drum ensemble | an acoustic djembe-like hand-drum ensemble with interlocking polyrhythms, sharp slap tones, deep hand strikes and group-response accents | rhythmic percussion :: music with drums and syncopated percussion
-japanese-traditional | 日式传统器乐编制 | Japanese traditional ensemble | sharply plucked shamisen or koto, breathy shakuhachi bamboo flute and resonant taiko strokes in a traditional Japanese-like ensemble | acoustic instrumental :: acoustic music with plucked strings, flute and percussion
-chinese-opera | 戏曲式唱腔锣鼓 | Chinese opera | piercing ornamented opera-like Chinese singing punctuated by sharp clappers, gongs and tightly accented theatrical drum patterns | theatrical singing :: theatrical singing with instrumental accompaniment
-arabic-ensemble | 乌德琴与调式花腔编制 | Arabic maqam ensemble | oud and qanun-like plucked ornaments under melismatic Arabic-like singing, maqam-style turns and darbuka hand-drum patterns | acoustic singing :: acoustic singing accompanied by plucked strings and percussion
-celtic-session | 凯尔特舞曲式合奏 | Celtic folk session | fast unison fiddle and tin-whistle dance tunes with accordion or pipes and a strongly lilting jig or reel rhythm | acoustic folk :: folk instrumental music with fiddle and wind instruments
-flamenco | 弗拉门戈式演唱与击掌 | Flamenco singing and handclaps | sharply rasgueado-strummed nylon guitar, accented palmas handclaps, heel-like taps and raw melismatic cante singing | acoustic guitar singing :: acoustic guitar music with singing and percussion
-balkan-brass | 巴尔干铜管舞曲编制 | Balkan brass dance ensemble | a bright fast brass-and-reed folk ensemble with tuba bass, a busy snare and strongly asymmetric dance-meter accents | brass band :: brass-band music with drums and wind instruments
-andean-ensemble | 安第斯排箫式编制 | Andean panpipe ensemble | breathy panpipe and quena-like melodies above rapid charango strumming and deep bombo-like drum strokes | acoustic folk :: acoustic folk music with flute, plucked strings and drums
-west-african-strings | 西非竖琴式弹唱 | West African kora singing | flowing interwoven kora-like harp or ngoni-like plucked patterns with griot-style ornamented singing and woody acoustic resonance | acoustic plucked-string singing :: acoustic singing with plucked string accompaniment
-brazilian-carnival | 桑巴游行式打击编制 | Samba carnival percussion | many interlocking samba percussion parts with deep surdo pulses, busy tamborim strokes, shaker wash and cuica-like squeals | percussion dance :: dance music with multiple percussion instruments
-mongolian-overtones | 呼麦与持续低音 | Mongolian throat singing | a clearly audible low sustained vocal drone with whistling overtone harmonics and resonant throat-singing formants | sustained low singing :: low-pitched singing with sustained notes
-south-asian-film | 南亚歌舞式编制 | South Asian film-song arrangement | highly ornamented film-song singing with dhol or tabla-like drums, bright string flourishes and strong dance-and-chorus call patterns | rhythmic orchestral pop :: melodic pop singing with strings and rhythmic percussion
-    """),
-    *scene_group("演唱与集体表演", """
-call-and-response | 集体应答演唱线索 | Group call-and-response singing | a clearly alternating solo sung call answered by a separate group chorus in repeated short exchanges | lead and backing vocal :: music with lead vocals and backing harmonies
-processional | 行进与仪式式音响 | Ceremonial marching sounds | a deliberate marching processional pulse with evenly spaced ceremonial drum strokes, brass or group chant and repeated measured calls | rhythmic ensemble :: rhythmic ensemble music with drums and voices
-voice-recitation | 诵唱式声音线索 | Recited unison chanting | sustained unison recited chanting with narrow repeating pitch patterns, a vocal drone and few clearly articulated instrumental parts | sustained singing :: singing with repeated notes and soft accompaniment
-family-chorus | 齐唱与唱游线索 | Family sing-and-play chorus | simple children's or family-group unison singing with repeated nursery-like phrases, handclaps and audible playful group responses | group singing :: a singer performing a simple melodic song
-sing-along | 儿童齐唱线索 | Children's nursery chorus | clearly audible children's voices singing a short familiar nursery-style tune together in straightforward unison | group singing :: multiple singers performing a repeated melody
-movement-song | 唱游口令线索 | Movement-command play songs | spoken or sung movement commands repeatedly answered by group claps, stomps and a simple stop-and-start play rhythm | upbeat singing :: an upbeat song with a regular rhythm and singing
-gospel-choir | 福音式合唱应答 | Gospel choir responses | an impassioned solo gospel-like lead answered by a large harmonized choir with Hammond organ and strong handclap accents | soulful backing-vocal :: soulful singing with backing voices, keyboard and drums
-chamber-style | 室内乐编配线索 | Chamber ensemble arrangement | a small exposed acoustic chamber ensemble with individually audible bowed-string or woodwind lines, shared room resonance and flexible interweaving phrasing | acoustic instrumental :: instrumental music performed by acoustic musicians
-    """),
-    *scene_group("独立与另类制作", """
-diy-band | DIY／独立乐队录音线索 | DIY indie-band production | a raw indie-band recording with loosely played live drums, exposed guitar and bass layers, intimate room reflections and an unpolished vocal mix | polished studio rock :: a polished studio band recording with electric guitars, bass, drums and vocals
-bedroom-pop | 卧室流行制作线索 | Bedroom pop production | very close softly sung vocals over dry homemade drum loops, warm small-keyboard sounds and audibly intimate low-fidelity overdubs | studio pop :: a studio pop song with lead singing, keyboards and electronic drums
-emo-dynamics | Emo／另类情绪化编配 | Emo alternative-rock dynamics | strained expressive singing with clean arpeggiated guitars suddenly opening into heavy distorted choruses and emphatic live drums | alternative rock :: a rock band with sung vocals, electric guitars, bass and live drums
-goth-electronic | 暗色电子哥特音色 | Darkwave and goth electronic sound | deep detached singing over icy chorus-treated bass, minor-key synth sequences, spacious drum-machine hits and a cold gothic texture | electronic pop :: synthesized pop music with a bassline, sung vocals and electronic drums
-postrock-build | 器乐后摇式推进 | Instrumental post-rock builds | long instrumental electric-guitar layers gradually rising from sparse delicate arpeggios into a loud sustained crescendo with expansive live drums | instrumental rock :: guitar-based instrumental music with varying loudness and a drum beat
-plugg-keys | Plugg／卧室说唱键盘语汇 | Plugg and pluggnb production | dreamy plugg-style trap production with sugary chiming keyboard leads, wide nostalgic rompler pads, simple soft claps and loose ticking hi-hats | contemporary trap :: hip-hop or trap production with a repeating keyboard melody, electronic bass and a drum beat
-ambient-immersive | 沉浸式环境声场 | Immersive ambient soundscapes | slowly evolving spatial pads and drones with long overlapping reverb tails, almost no articulated beat and deliberately suspended harmonic movement | electronic instrumental :: quiet instrumental electronic music with sustained chords and melodic phrases
-experimental-collage | Glitch 数字拼贴语汇 | Glitch and experimental digital collage | sharply sliced granular fragments, fractured micro-loops, glitch clicks and sudden discontinuous changes of digitally rearranged sound texture | electronic instrumental :: instrumental electronic music with synthesizers, percussion and repeated melodies
-    """),
-)
+from .aesthetics import SCENES
 
 CATALOG = {tag.label: tag for tag in (*STYLES, *SCENES)}
 if len(CATALOG) != len(STYLES) + len(SCENES) or len({tag.id for tag in CATALOG.values()}) != len(CATALOG):

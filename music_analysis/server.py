@@ -48,7 +48,7 @@ UPLOADS = DATA / "uploads"
 UPLOADS.mkdir(exist_ok=True)
 MAX_FILE_BYTES = 120 * 1024 * 1024
 MAX_BATCH_BYTES = 1024 ** 3
-REPORT_VERSION = 12
+REPORT_VERSION = 13
 DEVICE = os.environ.get("MUSIC_ANALYSIS_DEVICE", "cpu")
 models = Models(ASSETS, device=DEVICE, cache_dir=DATA / "features" / "clap")
 playback_lock = threading.Lock()
@@ -87,17 +87,21 @@ def analyze(path, previous=None):
             issues[label] = str(exc).splitlines()[0][:260] or type(exc).__name__
             return fallback
 
-    def semantics(duration, genres):
-        return stage("LAION CLAP", lambda: models.semantics(path, duration, library.tag_settings(), genres), {})
+    def semantics(duration, genres, culture_only=False):
+        return stage("LAION CLAP", lambda: models.semantics(path, duration, library.tag_settings(), genres,
+                                                           culture_only=culture_only), {})
 
     if previous:
         issues.pop("LAION CLAP", None)
-        semantic = {} if previous["rhythm"]["source"] == "静音" else semantics(previous["duration"], previous["genres"])
-        if previous["version"] == 11 and semantic.get("culture"):
+        culture_only = previous["version"] in (11, 12)
+        semantic = {} if previous["rhythm"]["source"] == "静音" else semantics(previous["duration"], previous["genres"], culture_only)
+        if culture_only and not semantic.get("culture") and previous["rhythm"]["source"] != "静音":
+            raise RuntimeError("文化审美更新失败，请重试；其他已有分析已保留。")
+        if culture_only:
             semantic["candidates"] = [row for row in previous.get("semantic", {}).get("candidates", [])
-                                      if row.get("kind") == "style"] + [row for row in semantic["candidates"] if row.get("kind") == "scene"]
+                                      if row.get("kind") == "style"] + [row for row in semantic.get("candidates", []) if row.get("kind") == "scene"]
         instruments = previous.get("instruments", [])
-        if previous["version"] != 11:
+        if not culture_only:
             instruments = [] if previous["rhythm"]["source"] == "静音" else stage(
                 "Instruments", lambda: models.instruments_from_embeddings(
                     models.discogs_embeddings(essentia_frames(load_audio(path)))), instruments)

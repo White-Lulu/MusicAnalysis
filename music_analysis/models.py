@@ -223,34 +223,20 @@ class Models:
             raise ValueError("The audio-text model returned invalid text features.")
         return result
 
-    def mono_texture(self, path, duration):
-        ratios, bands = [], []
-        for fraction in (.25, .5, .75):
-            clip = decode_audio(path, RATE, stereo=True, start=max(0, duration * fraction - 2.5), seconds=5)
-            ratios.append(float(np.sum((clip[0] - clip[1]) ** 2) / (np.sum(clip ** 2) + 1e-12)))
-            mono = clip.mean(axis=0)
-            spectrum = abs(np.fft.rfft((mono - mono.mean()) * np.hanning(len(mono)))) ** 2
-            bands.append(float(spectrum[np.fft.rfftfreq(len(mono), 1 / RATE) >= 6000].sum() / (spectrum.sum() + 1e-12)))
-        return {"mono_difference": round(float(np.median(ratios)), 4),
-                "high_band_share": round(float(np.median(bands)), 4),
-                "passed": sum(ratio < .02 and band < .01 for ratio, band in zip(ratios, bands)) >= 2}
-
-    def semantics(self, path, duration, tag_settings, genres=()):
-        from dataclasses import replace
+    def semantics(self, path, duration, tag_settings, genres=(), culture_only=False):
         vectors, rms = self.clap_audio(path, duration)
         overrides = {canonical_label(label): text for label, text in tag_settings.items()}
         settings = {tag.label: overrides.get(tag.label, tag.description) for tag in STYLES}
         settings.update({label: text for label, text in overrides.items() if label not in CATALOG})
         fingerprint = hashlib.sha256(json.dumps(settings, sort_keys=True).encode()).hexdigest()
-        if self.prompts.get("style", (None,))[0] != fingerprint:
+        if not culture_only and self.prompts.get("style", (None,))[0] != fingerprint:
             labels = list(settings)
             self.prompts["style"] = fingerprint, labels, self.clap_text(list(settings.values()))
-        _, labels, text_vectors = self.prompts["style"]
-        tags = [replace(tag, description=overrides.get(tag.label, tag.description)) for tag in SCENES]
+        tags = SCENES
         descriptions = [text for tag in tags for pair in culture_prompts(tag) for text in pair]
         scene_fingerprint = hashlib.sha256(json.dumps([CULTURE_VERSION, descriptions]).encode()).hexdigest()
         if self.prompts.get("culture", (None,))[0] != scene_fingerprint:
-            self.prompts["culture"] = scene_fingerprint, self.clap_text(descriptions).reshape(len(tags), 2, 2, -1)
+            self.prompts["culture"] = scene_fingerprint, self.clap_text(descriptions).reshape(len(tags), 2, 3, -1)
         _, scene_vectors = self.prompts["culture"]
         if "presence" not in self.prompts:
             self.prompts["presence"] = self.clap_text(["The sound of a singing voice in music.",
@@ -258,16 +244,13 @@ class Models:
         presence = vectors @ self.prompts["presence"].T
         vocal_margin = presence[:, 0] - presence[:, 1]
         scenes, metadata = culture_evidence(vectors, rms, tags, scene_vectors[:, 0], scene_vectors[:, 1],
-                                           genres, vocal_margin, mono_check=True)
-        if any(row["id"] == "cue-early-mono" for row in scenes):
-            texture = self.mono_texture(path, duration)
-            if not texture["passed"]:
-                scenes, metadata = culture_evidence(vectors, rms, tags, scene_vectors[:, 0], scene_vectors[:, 1],
-                                                   genres, vocal_margin, mono_check=False)
-            metadata["mono_texture_check"] = texture
+                                           genres, vocal_margin)
         metadata["fingerprint"] = scene_fingerprint
         audible = vectors[rms >= .0001]
-        styles = rank_candidates(labels, text_vectors @ normalize(audible.mean(axis=0)), genres) if len(audible) else []
+        styles = []
+        if not culture_only and len(audible):
+            _, labels, text_vectors = self.prompts["style"]
+            styles = rank_candidates(labels, text_vectors @ normalize(audible.mean(axis=0)), genres)
         return {
             "candidates": styles + scenes, "culture": metadata,
             "source": "LAION CLAP HTSAT Unfused",
