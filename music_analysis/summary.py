@@ -392,7 +392,7 @@ def summarize_tracks(tracks, weighted=True):
         "genres": rows("genres", eligible["genres"]),
         "keys": rows("keys", eligible["keys"]),
         "moods": rows("moods", eligible["moods"]),
-        "genre_profile": {"tracks": eligible["genres"], "rows": rows("genre_families", eligible["genres"], 10)},
+        "genre_profile": {"tracks": eligible["genres"], "rows": rows("genre_families", eligible["genres"], 12)},
         "key_profile": {"tracks": eligible["keys"], "modes": key_modes, "rows": rows("keys", key_total, 3)},
         "mood_profile": {"tracks": eligible["moods"], "rows": rows("moods", eligible["moods"], 10)},
         "microgenre_profile": semantic_profile("style"),

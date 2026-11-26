@@ -527,7 +527,7 @@ function directionChart(rows, maximum = Math.max(5, Math.ceil(rows[0].share / 5)
   return chart;
 }
 
-function directionProfile(title, profile, note, examples = []) {
+function directionProfile(title, profile, note) {
   const {tracks} = profile;
   const rows = profile.rows.map(row => ({...row, label: UI.label(row.label)}));
   const panel = card(title, t("基于 ") + tracks + t(" 首有相关分析的曲目。") + note);
@@ -540,7 +540,6 @@ function directionProfile(title, profile, note, examples = []) {
   const description = nearby.length ? t("证据较接近的方向有") + [lead, ...nearby].map(row => row.label).join(t("、")) + t("。") :
     t("当前选曲最偏向") + lead.label + t("，有 ") + lead.tracks + t(" 首出现这一方向。") + (next ? t("其次是") + next.label + t("。") : "");
   panel.append(element("p", description, "profile-reading"), directionChart(rows));
-  if (examples.length) panel.append(element("p", t("这一门类里较明显的细分风格有 ") + examples.join(t("、")) + t("。"), "info"));
   return panel;
 }
 
@@ -678,12 +677,9 @@ function renderCollection() {
     selectBand(Math.max(0, bands.findIndex(band => band.label === state.tempoBand)));
   }
   const genres = summary.genre_profile;
-  const leadingFamily = genres.rows[0]?.label;
-  const examples = summary.genres.filter(row => row.label.startsWith(leadingFamily + " › "))
-    .slice(0, 3).map(row => row.label.split(" › ")[1]);
   const genre = directionProfile(t("曲风画像"), {...genres,
     rows: genres.rows.map(row => ({...row, label: genreFamilies[row.label] || row.label}))},
-    t("条形长度表示平均曲风覆盖证据。每首歌在同一门类只取证据最强的子曲风。门类可重叠。"), examples);
+    t("条形长度表示平均曲风覆盖证据。每首歌在同一门类只取证据最强的子曲风。门类可重叠。"));
   const subgenres = directionProfile(t("细分曲风排名"), {tracks: genres.tracks,
     rows: summary.genres.slice(0, 12).map(row => {
       const [family, ...style] = row.label.split(" › ");

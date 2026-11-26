@@ -181,7 +181,6 @@ const UI = (() => {
   "请求的数据格式有误。": "The request data could not be processed.",
   "调性画像": "Key profile",
   "返回曲库": "Back to library",
-  "这一门类里较明显的细分风格有 ": "More prominent subgenres in this family include ",
   "选曲听感报告": "Your selection in words",
   "速度分布": "Tempo distribution",
   "速度区间": "Tempo band",
